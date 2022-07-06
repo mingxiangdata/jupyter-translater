@@ -17,7 +17,7 @@ def translate_markdown(text, dest_language='pt'):
 
      # Inner function to replace tags from text from a source list
     def replace_from_list(tag, text, replacement_list):
-        list_to_gen = lambda: [(x) for x in replacement_list]
+        list_to_gen = lambda: list(replacement_list)
         replacement_gen = list_to_gen()
         return re.sub(tag, lambda x: next(iter(replacement_gen)), text)
 
@@ -42,10 +42,10 @@ def translate_markdown(text, dest_language='pt'):
         text = translator.translate(text, dest=dest_language).text
 
         # Replace tags to original link tags
-        text = replace_from_list('[Xx]'+LINK_REPLACEMENT_KW[1:], text, md_links)
+        text = replace_from_list(f'[Xx]{LINK_REPLACEMENT_KW[1:]}', text, md_links)
 
         # Replace code tags
-        text = replace_from_list('[Xx]'+CODE_REPLACEMENT_KW[1:], text, md_codes)
+        text = replace_from_list(f'[Xx]{CODE_REPLACEMENT_KW[1:]}', text, md_codes)
 
         return text
 
